@@ -2,8 +2,8 @@ import fastifyCookie from "@fastify/cookie";
 import fastifyJwt from "@fastify/jwt";
 import fastify from "fastify";
 import { env } from "./env";
-import { userRoutes } from "./http/controllers/routes";
 import { ZodError } from "zod";
+import { userRoutes } from "./http/controllers/users/routes";
 
 export const app = fastify();
 
