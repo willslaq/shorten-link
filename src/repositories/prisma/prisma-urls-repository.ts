@@ -16,13 +16,11 @@ export class PrismaUrlsRepository implements UrlsRepository {
 
     return url;
   }
-  async searchMany(userId: string, query: string, page: number) {
+  async searchMany(userId: string, page: number, query?: string) {
     const urls = await prisma.url.findMany({
       where: {
         user_id: userId,
-        original_url: {
-          contains: query,
-        },
+        original_url: query ? { contains: query } : undefined,
         deleted_at: null,
       },
       skip: (page - 1) * 20,
@@ -31,6 +29,7 @@ export class PrismaUrlsRepository implements UrlsRepository {
 
     return urls;
   }
+
   async findByUserId(userId: string, page: number) {
     const urls = await prisma.url.findMany({
       where: {

@@ -26,13 +26,13 @@ export class InMemoryUrlsRepository implements UrlsRepository {
     return url;
   }
 
-  async searchMany(userId: string, query: string, page: number) {
+  async searchMany(userId: string, page: number, query?: string) {
     return this.items
       .filter(
         (item) =>
           item.user_id === userId &&
           item.deleted_at === null &&
-          item.original_url.includes(query)
+          (query ? item.original_url.includes(query) : true)
       )
       .slice((page - 1) * 20, page * 20);
   }
