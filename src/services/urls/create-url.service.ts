@@ -1,4 +1,5 @@
 import { UrlsRepository } from "@/repositories/urls.repository";
+import { generateShortUrl } from "@/utils/generate-short-url";
 import { Url } from "@prisma/client";
 
 interface CreateUrlServiceRequest {
@@ -18,7 +19,7 @@ export class CreateUrlService {
     originalUrl,
     userId,
   }: CreateUrlServiceRequest): Promise<CreateUrlServiceResponse> {
-    const shortenUrl = Math.random().toString(36).slice(2, 8);
+    const shortenUrl = generateShortUrl();
 
     const url = await this.urlsRepository.create({
       original_url: originalUrl,
