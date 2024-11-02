@@ -4,6 +4,8 @@ import { handleUserIfAuthenticated } from "@/http/middlewares/handle-user-if-aut
 import { redirectToOriginalUrlController } from "./redirect-to-original-url.controller";
 import { deleteUrlController } from "./delete.controller";
 import { editUrlController } from "./edit.controller";
+import { searchUserUrlsController } from "./fetch-many.controller";
+import { verifyJWT } from "@/http/middlewares/verify-jwt";
 
 export async function urlsRoutes(app: FastifyInstance) {
   app.post(
@@ -13,6 +15,7 @@ export async function urlsRoutes(app: FastifyInstance) {
   );
 
   app.get("/:shortenUrl", redirectToOriginalUrlController);
+  app.get("/user/urls", { onRequest: [verifyJWT] }, searchUserUrlsController);
 
   app.put("/urls/:id", editUrlController);
 
