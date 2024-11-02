@@ -19,8 +19,6 @@ describe("Increment Click Count Service", () => {
       userId: "user-01",
     });
 
-    console.log(url);
-
     const updatedUrl = await urlsRepository.incrementVisits(url.shorten_url);
 
     expect(updatedUrl.click_count).toEqual(1);

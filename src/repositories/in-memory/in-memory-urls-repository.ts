@@ -49,6 +49,27 @@ export class InMemoryUrlsRepository implements UrlsRepository {
 
     return url;
   }
+
+  async findByShortenUrl(shortenUrl: string) {
+    const url = this.items.find(
+      (item) => item.shorten_url === shortenUrl && item.deleted_at === null
+    );
+
+    if (!url) {
+      return null;
+    }
+
+    return url;
+  }
+  async findById(id: string) {
+    const url = this.items.find((item) => item.id === id);
+
+    if (!url) {
+      return null;
+    }
+
+    return url;
+  }
   async deleteById(id: string): Promise<void> {
     const url = this.items.find((item) => item.id === id);
 
@@ -109,7 +130,7 @@ export class InMemoryUrlsRepository implements UrlsRepository {
     url.click_count += 1;
     url.updated_at = new Date();
 
-    this.items[index] = url; 
+    this.items[index] = url;
 
     return url;
   }
