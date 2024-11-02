@@ -3,6 +3,7 @@ import { createShortenUrlController } from "./shorten-url.controller";
 import { handleUserIfAuthenticated } from "@/http/middlewares/handle-user-if-authenticated";
 import { redirectToOriginalUrlController } from "./redirect-to-original-url.controller";
 import { deleteUrlController } from "./delete.controller";
+import { editUrlController } from "./edit.controller";
 
 export async function urlsRoutes(app: FastifyInstance) {
   app.post(
@@ -12,6 +13,8 @@ export async function urlsRoutes(app: FastifyInstance) {
   );
 
   app.get("/:shortenUrl", redirectToOriginalUrlController);
+
+  app.put("/urls/:id", editUrlController);
 
   app.delete("/urls/:id", deleteUrlController);
 }
