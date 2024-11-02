@@ -4,8 +4,8 @@ import { Url } from "@prisma/client";
 
 interface CreateUrlServiceRequest {
   originalUrl: string;
-  expirationDate: Date;
-  userId: string;
+  expirationDate?: Date;
+  userId?: string;
 }
 
 interface CreateUrlServiceResponse {
@@ -24,8 +24,8 @@ export class CreateUrlService {
     const url = await this.urlsRepository.create({
       original_url: originalUrl,
       shorten_url: shortenUrl,
-      expiration_date: expirationDate,
-      user_id: userId,
+      expiration_date: expirationDate as Date,
+      user_id: userId || null,
     });
 
     return { url };

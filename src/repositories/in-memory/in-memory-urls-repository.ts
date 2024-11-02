@@ -15,7 +15,7 @@ export class InMemoryUrlsRepository implements UrlsRepository {
       expiration_date: data.expiration_date
         ? new Date(data.expiration_date)
         : new Date("9999-01-01"),
-      user_id: data.user_id,
+      user_id: data.user_id || null,
       created_at: new Date(),
       updated_at: new Date(),
       deleted_at: null,

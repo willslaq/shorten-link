@@ -4,8 +4,11 @@ import fastify from "fastify";
 import { env } from "./env";
 import { ZodError } from "zod";
 import { userRoutes } from "./http/controllers/users/routes";
+import { urlsRoutes } from "./http/controllers/urls/routes";
 
-export const app = fastify();
+export const app = fastify({
+  logger: env.NODE_ENV !== "production",
+});
 
 app.register(fastifyJwt, {
   secret: env.JWT_SECRET,
@@ -19,6 +22,7 @@ app.register(fastifyJwt, {
 });
 
 app.register(userRoutes);
+app.register(urlsRoutes);
 
 app.register(fastifyCookie);
 

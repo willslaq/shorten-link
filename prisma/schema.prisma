@@ -29,15 +29,15 @@ model User {
 model Url {
   id              String    @id @default(uuid())
   original_url    String
-  shorten_url     String
+  shorten_url     String    @unique
   click_count     Int       @default(0)
   expiration_date DateTime
   updated_at      DateTime  @updatedAt
   created_at      DateTime  @default(now())
   deleted_at      DateTime?
 
-  user    User   @relation(fields: [user_id], references: [id])
-  user_id String
+  user    User?   @relation(fields: [user_id], references: [id])
+  user_id String?
 
   @@map("urls")
 }
