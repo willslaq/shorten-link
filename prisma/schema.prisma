@@ -31,9 +31,9 @@ model Url {
   original_url    String
   shorten_url     String
   click_count     Int       @default(0)
-  expiration_date String
+  expiration_date DateTime
   updated_at      DateTime  @updatedAt
-  created_at      String
+  created_at      DateTime  @default(now())
   deleted_at      DateTime?
 
   user    User   @relation(fields: [user_id], references: [id])
