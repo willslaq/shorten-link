@@ -25,29 +25,22 @@ export class InMemoryUrlsRepository implements UrlsRepository {
 
     return url;
   }
+
   async searchMany(userId: string, query: string, page: number) {
-    const url = this.items
+    return this.items
       .filter(
-        (item) => item.user_id === userId && item.original_url.includes(query)
+        (item) =>
+          item.user_id === userId &&
+          item.deleted_at === null &&
+          item.original_url.includes(query)
       )
       .slice((page - 1) * 20, page * 20);
-
-    if (!url) {
-      return null;
-    }
-
-    return url;
   }
+
   async findByUserId(userId: string, page: number) {
-    const url = this.items
-      .filter((item) => item.user_id === userId)
+    return this.items
+      .filter((item) => item.user_id === userId && item.deleted_at === null)
       .slice((page - 1) * 20, page * 20);
-
-    if (!url) {
-      return null;
-    }
-
-    return url;
   }
 
   async findByShortenUrl(shortenUrl: string) {
@@ -55,41 +48,33 @@ export class InMemoryUrlsRepository implements UrlsRepository {
       (item) => item.shorten_url === shortenUrl && item.deleted_at === null
     );
 
-    if (!url) {
-      return null;
-    }
-
-    return url;
+    return url || null;
   }
+
   async findById(id: string) {
-    const url = this.items.find((item) => item.id === id);
+    const url = this.items.find(
+      (item) => item.id === id && item.deleted_at === null
+    );
 
-    if (!url) {
-      return null;
-    }
-
-    return url;
+    return url || null;
   }
+
   async deleteById(id: string): Promise<void> {
     const url = this.items.find((item) => item.id === id);
 
-    if (!url) {
-      return;
+    if (url) {
+      url.deleted_at = new Date();
     }
-
-    url.deleted_at = new Date();
-
-    return;
   }
+
   async deleteAllByUserId(userId: string): Promise<void> {
     this.items.forEach((url) => {
       if (url.user_id === userId && url.deleted_at === null) {
         url.deleted_at = new Date();
       }
     });
-
-    return;
   }
+
   async save(data: Prisma.UrlUncheckedUpdateInput): Promise<Url> {
     const index = this.items.findIndex((item) => item.id === data.id);
 
@@ -119,7 +104,7 @@ export class InMemoryUrlsRepository implements UrlsRepository {
 
   async incrementVisits(shortenUrl: string): Promise<Url> {
     const index = this.items.findIndex(
-      (item) => item.shorten_url === shortenUrl
+      (item) => item.shorten_url === shortenUrl && item.deleted_at === null
     );
 
     if (index === -1) {
