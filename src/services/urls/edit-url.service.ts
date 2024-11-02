@@ -5,7 +5,7 @@ import { Url } from "@prisma/client";
 interface EditUrlServiceRequest {
   id: string;
   originalUrl?: string;
-  expiradionDate?: Date;
+  expirationDate?: Date;
 }
 
 interface EditUrlServiceResponse {
@@ -18,7 +18,7 @@ export class EditUrlService {
   async execute({
     id,
     originalUrl,
-    expiradionDate,
+    expirationDate,
   }: EditUrlServiceRequest): Promise<EditUrlServiceResponse> {
     const url = await this.urlsRepository.findById(id);
 
@@ -27,7 +27,7 @@ export class EditUrlService {
     }
 
     url.original_url = originalUrl ?? url.original_url;
-    url.expiration_date = expiradionDate ?? url.expiration_date;
+    url.expiration_date = expirationDate ?? url.expiration_date;
 
     await this.urlsRepository.save(url);
 
