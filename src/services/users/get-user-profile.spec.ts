@@ -16,7 +16,7 @@ describe("Get User Profile Service", () => {
   it("should be able to get user profile", async () => {
     const user = await usersRepository.create({
       name: "John Doe",
-      email: "WzXZ3@example.com",
+      email: "johndoe@gmail.com",
       password_hash: await bcrypt.hash("123456", 6),
     });
 
