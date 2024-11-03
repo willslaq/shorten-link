@@ -1,4 +1,4 @@
-version: '3'
+version: '3.7'
 services:
   shorten-link-pg:
     image: bitnami/postgresql
@@ -8,12 +8,20 @@ services:
       POSTGRES_USERNAME: "postgres"
       POSTGRES_PASSWORD: "postgres"
       POSTGRES_DATABASE: "shorten_link"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -h shorten-link-pg"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
-  # shorten-link-app:
-  #   build: .
-  #   ports:
-  #     - 3000:3000
-  #   depends_on:
-  #     - shorten-link-pg
-  #   environment:
-  #     DATABASE_URL: "postgresql://postgres:postgres@shorten-link-pg:5432/shorten_link"
+  shorten-link-app:
+    build: .
+    ports:
+      - 3333:3333
+    depends_on:
+      shorten-link-pg:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: "postgresql://postgres:postgres@shorten-link-pg:5432/shorten_link"
+      JWT_SECRET: "${JWT_SECRET}"
+      PORT: "3333"
