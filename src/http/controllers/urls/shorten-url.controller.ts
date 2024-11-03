@@ -6,18 +6,12 @@ export async function createShortenUrlController(
   request: FastifyRequest,
   reply: FastifyReply
 ) {
-  
-
   const { originalUrl, expirationDate } = createShortenUrlBodySchema.parse(
     request.body
   );
 
-  console.log(request.user);
-
   try {
     const createUrlService = makeCreateUrlService();
-
-    console.log(request.user?.sub);
 
     const userId = request.user?.sub || undefined;
 
