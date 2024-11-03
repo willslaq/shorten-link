@@ -1,4 +1,4 @@
-import { ZodObject, ZodRawShape, ZodString, ZodTypeAny, ZodType } from "zod";
+import { ZodObject, ZodRawShape, ZodString, ZodTypeAny } from "zod";
 
 export function zodToJsonSchema(zodSchema: ZodObject<ZodRawShape>) {
   const jsonSchema: Record<string, any> = {
@@ -27,7 +27,7 @@ export function zodToJsonSchema(zodSchema: ZodObject<ZodRawShape>) {
           jsonSchema.properties[key].format = "date-time";
           break;
         default:
-          type = "string";
+          type = "string"; // Default case
       }
 
       jsonSchema.properties[key] = { type };
@@ -44,7 +44,10 @@ export function zodToJsonSchema(zodSchema: ZodObject<ZodRawShape>) {
           )?.value;
         }
       }
-      jsonSchema.required.push(key);
+
+      if (!property.isOptional()) {
+        jsonSchema.required.push(key);
+      }
     }
   }
 
