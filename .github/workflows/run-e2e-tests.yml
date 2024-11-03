@@ -36,8 +36,9 @@ jobs:
       - name: Setup Environment Variables
         run: |
           echo "DATABASE_URL=postgresql://postgres:postgres@localhost:5432/testdb" >> $GITHUB_ENV
+          echo "JWT_SECRET=${{ secrets.JWT_SECRET }}" >> $GITHUB_ENV
 
-      - name: Run Unit Tests
+      - name: Run E2E Tests
         run: npm run test:e2e
         env:
           DATABASE_URL: postgresql://postgres:postgres@localhost:5432/testdb
