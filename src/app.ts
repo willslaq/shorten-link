@@ -1,5 +1,7 @@
 import fastifyCookie from "@fastify/cookie";
 import fastifyJwt from "@fastify/jwt";
+import fastifySwagger from "@fastify/swagger";
+import fastifySwaggerUi from "@fastify/swagger-ui";
 import fastify from "fastify";
 import { env } from "./env";
 import { ZodError } from "zod";
@@ -8,6 +10,34 @@ import { urlsRoutes } from "./http/controllers/urls/routes";
 
 export const app = fastify({
   logger: env.NODE_ENV !== "production",
+});
+
+app.register(fastifySwagger, {
+  swagger: {
+    info: {
+      title: "API Documentation",
+      description: "API documentation for your project",
+      version: "1.0.0",
+    },
+    host: `localhost:${env.PORT}`,
+    schemes: ["http"],
+    consumes: ["application/json"],
+    produces: ["application/json"],
+  },
+});
+
+app.register(fastifySwaggerUi, {
+  routePrefix: "/documentation",
+  uiConfig: {
+    docExpansion: "full",
+    deepLinking: false,
+  },
+  staticCSP: true,
+  transformStaticCSP: (header) => header,
+  transformSpecification: (swaggerObject) => {
+    return swaggerObject;
+  },
+  transformSpecificationClone: true,
 });
 
 app.register(fastifyJwt, {
@@ -40,4 +70,9 @@ app.setErrorHandler((error, _, reply) => {
   }
 
   return reply.status(500).send({ message: "Internal server error" });
+});
+
+app.ready((err) => {
+  if (err) throw err;
+  app.swagger();
 });
