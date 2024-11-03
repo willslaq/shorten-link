@@ -1,6 +1,6 @@
 import { InvalidCredentialsError } from "@/services/errors/invalid-credentials-error";
 import { makeAuthenticateService } from "@/services/factories/make-authenticate-service";
-import { authenticateBodySchema } from "@/utils/schemas/authenticate-body-schema";
+import { authenticateBodySchema } from "@/schemas/users/authenticate-body-schema";
 import { FastifyReply, FastifyRequest } from "fastify";
 
 export async function authenticateController(

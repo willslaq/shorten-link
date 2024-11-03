@@ -1,6 +1,6 @@
 import { FastifyReply, FastifyRequest } from "fastify";
 import { makeRegisterService } from "@/services/factories/make-register-service";
-import { registerBodySchema } from "@/utils/schemas/register-body-schema";
+import { registerBodySchema } from "@/schemas/users/register-body-schema";
 
 export async function registerController(
   request: FastifyRequest,

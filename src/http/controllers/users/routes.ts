@@ -4,9 +4,13 @@ import { authenticateController } from "./authenticate.controller";
 import { refreshTokenController } from "./refresh.controller";
 import { profileController } from "./profile.controller";
 import { verifyJWT } from "@/http/middlewares/verify-jwt";
-import { registerBodySchema } from "@/utils/schemas/register-body-schema";
-import { zodToJsonSchema } from "@/utils/schemas/zod-to-json-schema";
-import { authenticateBodySchema } from "@/utils/schemas/authenticate-body-schema";
+import { registerBodySchema } from "@/schemas/users/register-body-schema";
+import { zodToJsonSchema } from "@/schemas/zod-to-json-schema";
+import { authenticateBodySchema } from "@/schemas/users/authenticate-body-schema";
+import { authenticateResponseSchema } from "@/schemas/users/authenticate-response-schema";
+import { refreshTokenResponseSchema } from "@/schemas/users/refresh-token-response-schema";
+import { registerResponseSchema } from "@/schemas/users/register-response-schema";
+import { profileResponseSchema } from "@/schemas/users/profile-response-schema";
 
 export async function userRoutes(app: FastifyInstance) {
   app.post(
@@ -14,24 +18,7 @@ export async function userRoutes(app: FastifyInstance) {
     {
       schema: {
         body: zodToJsonSchema(registerBodySchema),
-        response: {
-          201: {
-            type: "object",
-            properties: {
-              token: {
-                type: "string",
-              },
-            },
-          },
-          409: {
-            type: "object",
-            properties: {
-              message: {
-                type: "string",
-              },
-            },
-          },
-        },
+        response: registerResponseSchema,
       },
     },
     registerController
@@ -41,16 +28,7 @@ export async function userRoutes(app: FastifyInstance) {
     {
       schema: {
         body: zodToJsonSchema(authenticateBodySchema),
-        reponse: {
-          200: {
-            type: "object",
-            properties: {
-              token: {
-                type: "string",
-              },
-            },
-          },
-        },
+        reponse: authenticateResponseSchema,
       },
     },
     authenticateController
@@ -60,16 +38,7 @@ export async function userRoutes(app: FastifyInstance) {
     "/token/refresh",
     {
       schema: {
-        response: {
-          200: {
-            type: "object",
-            properties: {
-              token: {
-                type: "string",
-              },
-            },
-          },
-        },
+        response: refreshTokenResponseSchema,
       },
     },
     refreshTokenController
@@ -80,36 +49,7 @@ export async function userRoutes(app: FastifyInstance) {
     {
       onRequest: [verifyJWT],
       schema: {
-        response: {
-          200: {
-            type: "object",
-            properties: {
-              user: {
-                type: "object",
-                properties: {
-                  id: {
-                    type: "string",
-                  },
-                  name: {
-                    type: "string",
-                  },
-                  email: {
-                    type: "string",
-                  },
-                  last_login: {
-                    type: "string",
-                  },
-                  updated_at: {
-                    type: "string",
-                  },
-                  created_at: {
-                    type: "string",
-                  },
-                },
-              },
-            },
-          },
-        },
+        response: profileResponseSchema,
       },
     },
     profileController
