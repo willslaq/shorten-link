@@ -1,23 +1,15 @@
 import { FastifyReply, FastifyRequest } from "fastify";
-import { z } from "zod";
 import { makeEditUrlService } from "@/services/factories/make-edit-url-service";
 import { ResourceNotFoundError } from "@/services/errors/resource-not-found-error";
+import { editUrlParamsSchema } from "@/schemas/urls/edit-url-params-schema";
+import { editUrlBodySchema } from "@/schemas/urls/edit-url-body-schema";
 
 export async function editUrlController(
   request: FastifyRequest,
   reply: FastifyReply
 ) {
-  const paramsSchema = z.object({
-    id: z.string().uuid(),
-  });
-
-  const bodySchema = z.object({
-    originalUrl: z.string().optional(),
-    expirationDate: z.string().optional(),
-  });
-
-  const { id } = paramsSchema.parse(request.params);
-  const { originalUrl, expirationDate } = bodySchema.parse(request.body);
+  const { id } = editUrlParamsSchema.parse(request.params);
+  const { originalUrl, expirationDate } = editUrlBodySchema.parse(request.body);
 
   try {
     const editUrlService = makeEditUrlService();

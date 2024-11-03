@@ -1,17 +1,13 @@
 import { FastifyReply, FastifyRequest } from "fastify";
-import { z } from "zod";
 import { ResourceNotFoundError } from "@/services/errors/resource-not-found-error";
 import { makeDeleteUrlService } from "@/services/factories/make-delete-url-service";
+import { deleteUrlParamsSchema } from "@/schemas/urls/delete-url-params-schema";
 
 export async function deleteUrlController(
   request: FastifyRequest,
   reply: FastifyReply
 ) {
-  const paramsSchema = z.object({
-    id: z.string().uuid(),
-  });
-
-  const { id } = paramsSchema.parse(request.params);
+  const { id } = deleteUrlParamsSchema.parse(request.params);
 
   try {
     const deleteUrlService = makeDeleteUrlService();

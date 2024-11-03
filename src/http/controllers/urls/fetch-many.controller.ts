@@ -1,18 +1,13 @@
 import { FastifyReply, FastifyRequest } from "fastify";
-import { z } from "zod";
 import { ResourceNotFoundError } from "@/services/errors/resource-not-found-error";
 import { makeSearchManyUrlService } from "@/services/factories/make-search-many-url-service";
+import { searchUsersUrlsQuerySchema } from "@/schemas/urls/search-user-urls-query-schema";
 
 export async function searchUserUrlsController(
   request: FastifyRequest,
   reply: FastifyReply
 ) {
-  const querySchema = z.object({
-    query: z.string().optional(),
-    page: z.coerce.number().optional().default(1),
-  });
-
-  const { query, page } = querySchema.parse(request.query);
+  const { query, page } = searchUsersUrlsQuerySchema.parse(request.query);
 
   try {
     const userId = request.user.sub;

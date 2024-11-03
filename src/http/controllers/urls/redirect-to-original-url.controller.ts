@@ -1,18 +1,16 @@
+import { redirectToOriginalUrlParamsSchema } from "@/schemas/urls/redirect-to-original-url-params-schema";
 import { UrlExpiredError } from "@/services/errors/url-expired-error";
 import { makeFindOriginalUrlService } from "@/services/factories/make-find-original-url-service";
 import { makeIncrementClickCountService } from "@/services/factories/make-incremment-clicl-count-service";
 import { FastifyReply, FastifyRequest } from "fastify";
-import { z } from "zod";
 
 export async function redirectToOriginalUrlController(
   request: FastifyRequest,
   reply: FastifyReply
 ) {
-  const paramsSchema = z.object({
-    shortenUrl: z.string(),
-  });
-
-  const { shortenUrl } = paramsSchema.parse(request.params);
+  const { shortenUrl } = redirectToOriginalUrlParamsSchema.parse(
+    request.params
+  );
 
   try {
     const findOriginalUrlService = makeFindOriginalUrlService();

@@ -1,15 +1,12 @@
+import { createShortenUrlBodySchema } from "@/schemas/urls/create-shorten-url-body-schema";
 import { makeCreateUrlService } from "@/services/factories/make-create-url-service";
 import { FastifyReply, FastifyRequest } from "fastify";
-import { z } from "zod";
 
 export async function createShortenUrlController(
   request: FastifyRequest,
   reply: FastifyReply
 ) {
-  const createShortenUrlBodySchema = z.object({
-    originalUrl: z.string().url(),
-    expirationDate: z.coerce.date().optional(),
-  });
+  
 
   const { originalUrl, expirationDate } = createShortenUrlBodySchema.parse(
     request.body
