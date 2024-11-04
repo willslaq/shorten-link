@@ -21,7 +21,7 @@
 
 - Crie um arquivo `.env` na raiz do projeto com as seguintes variáveis:
   ```bash
-  DATABASE_URL="postgresql://postgres:postgres@shorten-link-pg:5432/shorten_link"
+  DATABASE_URL="postgresql://postgres:postgres@localhost:5432/shorten_link?schema=public"
   JWT_SECRET="seu-segredo"
   PORT=3333
   ```
