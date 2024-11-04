@@ -51,11 +51,11 @@ Para rodar a aplicação usando Docker, siga os seguintes passos:
 
 ## 📜 Principais Scripts Disponíveis
 
-- start:dev: Inicia a aplicação em modo de desenvolvimento com hot-reload
-- test:unit: Roda os testes unitários
-- test:e2e: Roda os testes E2E
-- test:coverage: Verifica a cobertura dos testes e gera um relatório
-- lint: Faz o linting automático do código
+- `start:dev`: Inicia a aplicação em modo de desenvolvimento com hot-reload
+- `test:unit`: Roda os testes unitários
+- `test:e2e`: Roda os testes E2E
+- `test:coverage`: Verifica a cobertura dos testes e gera um relatório
+- `lint`: Faz o linting automático do código
 
 ## 📚 Documentação
 
@@ -64,9 +64,9 @@ Acesse em `http://localhost:3333/documentation`
 
 ## 🛠️ Tecnologias Utilizadas
 
-[Node.js](https://nodejs.org/)
-[Fastify](https://fastify.dev/)
-[Prisma](https://www.prisma.io/)
-[Postgresql](https://www.postgresql.org/)
-[Docker](https://www.docker.com/)
-[Zod](https://github.com/colinhacks/zod)
+- [Node.js](https://nodejs.org/)
+- [Fastify](https://fastify.dev/)
+- [Prisma](https://www.prisma.io/)
+- [Postgresql](https://www.postgresql.org/)
+- [Docker](https://www.docker.com/)
+- [Zod](https://github.com/colinhacks/zod)
